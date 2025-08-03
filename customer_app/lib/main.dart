@@ -102,8 +102,15 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? selectedCategory; // null = mixed, 'new' = new only, 'used' = used only
 
   @override
   Widget build(BuildContext context) {
@@ -116,11 +123,11 @@ class HomePage extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildRectangularCard(context, 'New Parts', Icons.new_releases, Colors.green),
+                child: _buildRectangularCard(context, 'New Parts', Icons.new_releases, Colors.green, 'new'),
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: _buildRectangularCard(context, 'Used Parts', Icons.build, Colors.orange),
+                child: _buildRectangularCard(context, 'Used Parts', Icons.build, Colors.orange, 'used'),
               ),
             ],
           ),
@@ -130,11 +137,24 @@ class HomePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Featured Products',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Featured Products',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (selectedCategory != null)
+                    Text(
+                      selectedCategory == 'new' ? 'Showing New Products Only' : 'Showing Used Products Only',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                ],
               ),
               TextButton(
                 onPressed: () {
@@ -153,6 +173,14 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 // Alternate between new and used products for demo
                 bool isNew = index % 2 == 0;
+                
+                // Filter products based on selected category
+                if (selectedCategory == 'new' && !isNew) {
+                  return const SizedBox.shrink(); // Hide used products
+                } else if (selectedCategory == 'used' && isNew) {
+                  return const SizedBox.shrink(); // Hide new products
+                }
+                
                 return _buildProductCard(context, index, isNew);
               },
             ),
@@ -243,12 +271,22 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRectangularCard(BuildContext context, String title, IconData icon, Color color) {
+  Widget _buildRectangularCard(BuildContext context, String title, IconData icon, Color color, String category) {
+    bool isSelected = selectedCategory == category;
     return Card(
-      elevation: 2,
+      elevation: isSelected ? 4 : 2,
+      color: isSelected ? color.withOpacity(0.1) : null,
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to category
+          setState(() {
+            if (selectedCategory == category) {
+              // If already selected, deselect it (show mixed)
+              selectedCategory = null;
+            } else {
+              // Select this category
+              selectedCategory = category;
+            }
+          });
         },
         child: Container(
           height: 80,
@@ -258,18 +296,25 @@ class HomePage extends StatelessWidget {
               Icon(
                 icon,
                 size: 32,
-                color: color,
+                color: isSelected ? color : color,
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    color: isSelected ? color : null,
                   ),
                 ),
               ),
+              if (isSelected)
+                Icon(
+                  Icons.check_circle,
+                  color: color,
+                  size: 20,
+                ),
             ],
           ),
         ),
