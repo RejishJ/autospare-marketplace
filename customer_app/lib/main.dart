@@ -120,7 +120,7 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: _buildRectangularCard(context, 'Used Parts', Icons.build, Colors.purple),
+                child: _buildRectangularCard(context, 'Used Parts', Icons.build, Colors.orange),
               ),
             ],
           ),
