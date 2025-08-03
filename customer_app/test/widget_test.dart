@@ -11,20 +11,26 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:customer_app/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('AutoSpare Customer App smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const AutoSpareCustomerApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the app title is displayed
+    expect(find.text('AutoSpare'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that home page elements are present
+    expect(find.text('Welcome to AutoSpare!'), findsOneWidget);
+    expect(find.text('Car Parts'), findsOneWidget);
+    expect(find.text('Bike Parts'), findsOneWidget);
+    expect(find.text('New Parts'), findsOneWidget);
+    expect(find.text('Used Parts'), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('App loads successfully', (WidgetTester tester) async {
+    await tester.pumpWidget(const AutoSpareCustomerApp());
+    
+    // Verify the app loads without errors
+    expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.byType(Scaffold), findsOneWidget);
   });
 }

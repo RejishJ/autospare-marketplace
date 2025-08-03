@@ -11,20 +11,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:admin_app/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('AutoSpare Admin App smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const AutoSpareAdminApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the app title is displayed
+    expect(find.text('AutoSpare Admin'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that dashboard elements are present
+    expect(find.text('Total Products'), findsOneWidget);
+    expect(find.text('Pending Orders'), findsOneWidget);
+    expect(find.text('Total Customers'), findsOneWidget);
+    expect(find.text('Revenue (₹)'), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('App loads successfully', (WidgetTester tester) async {
+    await tester.pumpWidget(const AutoSpareAdminApp());
+    
+    // Verify the app loads without errors
+    expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.byType(Scaffold), findsOneWidget);
   });
 }
