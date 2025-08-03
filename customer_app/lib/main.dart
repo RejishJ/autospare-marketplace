@@ -47,15 +47,15 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
             Icon(
               Icons.directions_car,
               color: Colors.white,
               size: 28,
             ),
-            const SizedBox(width: 8),
-            const Text(
+            SizedBox(width: 8),
+            Text(
               'AutoSpare',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -465,7 +465,7 @@ class SearchPage extends StatelessWidget {
                       child: const Icon(Icons.inventory),
                     ),
                     title: Text('Product ${index + 1}'),
-                    subtitle: Text('Car Parts • Used'),
+                    subtitle: const Text('Car Parts • Used'),
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -533,7 +533,7 @@ class CartPage extends StatelessWidget {
                             // TODO: Decrease quantity
                           },
                         ),
-                        Text('1'),
+                        const Text('1'),
                         IconButton(
                           icon: const Icon(Icons.add),
                           onPressed: () {
