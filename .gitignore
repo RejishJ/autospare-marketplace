@@ -57,3 +57,6 @@ firebase_options.dart
 # OS
 .DS_Store
 Thumbs.db
+
+# Cursor chat backups
+chat_backups_of_cursor/
