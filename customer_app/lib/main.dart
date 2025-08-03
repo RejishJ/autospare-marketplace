@@ -112,41 +112,16 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Welcome Section
-          Text(
-            'Welcome to AutoSpare!',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Find the best vehicle parts for your car or bike',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Colors.grey[600],
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Categories Section
-          Text(
-            'Categories',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
+          // New Parts and Used Parts Section
+          Row(
             children: [
-              _buildCategoryCard(context, 'Car Parts', Icons.directions_car, Colors.blue),
-              _buildCategoryCard(context, 'Bike Parts', Icons.motorcycle, Colors.orange),
-              _buildCategoryCard(context, 'New Parts', Icons.new_releases, Colors.green),
-              _buildCategoryCard(context, 'Used Parts', Icons.build, Colors.purple),
+              Expanded(
+                child: _buildRectangularCard(context, 'New Parts', Icons.new_releases, Colors.green),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildRectangularCard(context, 'Used Parts', Icons.build, Colors.purple),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -227,30 +202,32 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard(BuildContext context, String title, IconData icon, Color color) {
+  Widget _buildRectangularCard(BuildContext context, String title, IconData icon, Color color) {
     return Card(
       elevation: 2,
       child: InkWell(
         onTap: () {
           // TODO: Navigate to category
         },
-        child: Padding(
+        child: Container(
+          height: 80,
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
             children: [
               Icon(
                 icon,
-                size: 48,
+                size: 32,
                 color: color,
               ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
-                textAlign: TextAlign.center,
               ),
             ],
           ),
