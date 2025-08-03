@@ -49,52 +49,30 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       appBar: AppBar(
         title: const Row(
           children: [
-            Icon(
-              Icons.directions_car,
-              color: Colors.white,
-              size: 28,
-            ),
-            SizedBox(width: 8),
-            Text(
-              'AutoSpare',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
+        Icon(
+          Icons.directions_car,
+          color: Colors.white,
+          size: 28,
+        ),
+        SizedBox(width: 8),
+        Text(
+          'AutoSpare',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
           ],
         ),
         backgroundColor: Colors.white,
         foregroundColor: const Color(0xFF1E3A8A),
         elevation: 0,
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                // TODO: Search functionality
-              },
-              icon: const Icon(Icons.search, size: 18),
-              label: const Text(
-                'Search',
-                style: TextStyle(fontSize: 14),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1E3A8A),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-          ),
           IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {
-              // TODO: Notifications
-            },
+        icon: const Icon(Icons.notifications_outlined),
+        onPressed: () {
+          // TODO: Notifications
+        },
           ),
         ],
       ),
