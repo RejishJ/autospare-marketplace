@@ -14,7 +14,7 @@ class AutoSpareCustomerApp extends StatelessWidget {
       title: 'AutoSpare',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF059669), // Green theme
+          seedColor: const Color(0xFF1E3A8A), // Blue theme for professional look
           brightness: Brightness.light,
         ),
         useMaterial3: true,
@@ -47,19 +47,51 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AutoSpare'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-        elevation: 2,
+        title: Row(
+          children: [
+            Icon(
+              Icons.directions_car,
+              color: Colors.white,
+              size: 28,
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'AutoSpare',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: const Color(0xFF1E3A8A),
+        elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // TODO: Search functionality
-            },
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                // TODO: Search functionality
+              },
+              icon: const Icon(Icons.search, size: 18),
+              label: const Text(
+                'Search',
+                style: TextStyle(fontSize: 14),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1E3A8A),
+                foregroundColor: Colors.white,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
           ),
           IconButton(
-            icon: const Icon(Icons.notifications),
+            icon: const Icon(Icons.notifications_outlined),
             onPressed: () {
               // TODO: Notifications
             },
@@ -147,11 +179,38 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   if (selectedCategory != null)
-                    Text(
-                      selectedCategory == 'new' ? 'Showing New Products Only' : 'Showing Used Products Only',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: selectedCategory == 'new' 
+                          ? Colors.green.withOpacity(0.1) 
+                          : Colors.orange.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: selectedCategory == 'new' 
+                            ? Colors.green.withOpacity(0.3) 
+                            : Colors.orange.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            selectedCategory == 'new' ? Icons.new_releases : Icons.build,
+                            size: 12,
+                            color: selectedCategory == 'new' ? Colors.green : Colors.orange,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            selectedCategory == 'new' ? 'New Products Only' : 'Used Products Only',
+                            style: TextStyle(
+                              color: selectedCategory == 'new' ? Colors.green : Colors.orange,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                 ],
@@ -274,9 +333,16 @@ class _HomePageState extends State<HomePage> {
   Widget _buildRectangularCard(BuildContext context, String title, IconData icon, Color color, String category) {
     bool isSelected = selectedCategory == category;
     return Card(
-      elevation: isSelected ? 4 : 2,
-      color: isSelected ? color.withOpacity(0.1) : null,
+      elevation: isSelected ? 2 : 1,
+      color: isSelected ? color.withOpacity(0.08) : Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: isSelected 
+          ? BorderSide(color: color, width: 2)
+          : BorderSide(color: Colors.grey.shade200, width: 1),
+      ),
       child: InkWell(
+        borderRadius: BorderRadius.circular(12),
         onTap: () {
           setState(() {
             if (selectedCategory == category) {
@@ -293,27 +359,41 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Icon(
-                icon,
-                size: 32,
-                color: isSelected ? color : color,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: isSelected ? color.withOpacity(0.1) : Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  icon,
+                  size: 24,
+                  color: isSelected ? color : Colors.grey.shade600,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                     fontSize: 16,
-                    color: isSelected ? color : null,
+                    color: isSelected ? color : Colors.grey.shade800,
                   ),
                 ),
               ),
               if (isSelected)
-                Icon(
-                  Icons.check_circle,
-                  color: color,
-                  size: 20,
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 16,
+                  ),
                 ),
             ],
           ),
